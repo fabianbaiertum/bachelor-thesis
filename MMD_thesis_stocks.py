@@ -46,6 +46,28 @@ mp_tsla = mp_tsla.iloc[:min_len].reset_index(drop=True)
 mp_intc = mp_intc.iloc[:min_len].reset_index(drop=True)
 mp_pcln = mp_pcln.iloc[:min_len].reset_index(drop=True)
 
+# pick the tick-to-$ scale (LOBSTER often uses 10,000 ticks = $1)
+SCALE = 10000.0   # change to 1000.0 if prices look 10x off
+ROLL = 100        # rolling-mean window for the 3rd plot
+
+def plot_three_views(name, series, scale=SCALE, roll=ROLL):
+    s = series.astype(float) / scale
+    s_norm = 100 * s / s.iloc[0]
+
+    # --- 2) Normalized to 100 at t0 ---
+    plt.figure(figsize=(12, 3))
+    plt.plot(s_norm)
+    plt.title(f"{name}: Microprice (indexed to 100 at t0)")
+    plt.ylabel("Index (t0 = 100)")
+    plt.xlabel("Book update index")
+    plt.tight_layout()
+    plt.show()
+
+# Call for each asset (uses your existing mp_tsla, mp_intc, mp_pcln)
+plot_three_views("TSLA", mp_tsla)
+plot_three_views("INTC", mp_intc)
+plot_three_views("PCLN", mp_pcln)
+
 # Plot microprice time series
 plt.figure(figsize=(12, 6))
 plt.plot(mp_tsla, label="TSLA microprice")
