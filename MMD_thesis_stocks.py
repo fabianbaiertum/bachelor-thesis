@@ -12,13 +12,10 @@ path_stock_b = "C:/Users/Fabia/OneDrive/Desktop/INTC_2015-01-01_2015-03-31_10/ou
 path_stock_c = "C:/Users/Fabia/OneDrive/Desktop/PCLN_2015-01-01_2015-03-31_10/output-2015/0/0/4/PCLN_2015-01-02_34200000_57600000_orderbook_10.csv"
 
 # -------------------- LOBSTER column names --------------------
-# Order book with 10 levels: AskPrice1..10, AskSize1..10, BidPrice1..10, BidSize1..10
-names = (
-    [f"AskPrice{i}" for i in range(1, 11)] +
-    [f"AskSize{i}"  for i in range(1, 11)] +
-    [f"BidPrice{i}" for i in range(1, 11)] +
-    [f"BidSize{i}"  for i in range(1, 11)]
-)
+# Order book with 10 levels: AskPrice1, AskSize1, BidPrice1, BidSize1,etc.
+names = []
+for i in range(1, 11):
+    names += [f"AskPrice{i}", f"AskSize{i}", f"BidPrice{i}", f"BidSize{i}"]
 
 # -------------------- Loaders --------------------
 def load_microprice(path, n_steps=5000):   #microprice is better for short-term strategies,
